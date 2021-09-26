@@ -25,16 +25,16 @@ namespace DatabaseFirstLINQ
             //ProblemEight();
             //ProblemNine();
             //ProblemTen();
-            ProblemEleven();
-            ProblemTwelve();
-            ProblemThirteen();
-            ProblemFourteen();
+           // ProblemEleven();
+           // ProblemTwelve();
+            //ProblemThirteen();
+           // ProblemFourteen();
             ProblemFifteen();
-            ProblemSixteen();
-            ProblemSeventeen();
-            ProblemEighteen();
-            ProblemNineteen();
-            ProblemTwenty();
+           // ProblemSixteen();
+           // ProblemSeventeen();
+            //ProblemEighteen();
+            //ProblemNineteen();
+           // ProblemTwenty();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -156,7 +156,17 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that retreives all of the products in the shopping cart of users who have the role of "Employee".
             // Then print the user's email as well as the product's name, price, and quantity to the console.
+            var usersInRole = _context.UserRoles.Where(u => u.Role.RoleName == "Employee").Select(u => u.User.Id);
+            var userShoppingCartProducts = _context.ShoppingCarts.Include(sc => sc.Product).Include(sc => sc.User).Where(sc => usersInRole.Contains(sc.UserId));
 
+            foreach (var shoppingCart in userShoppingCartProducts)
+            {
+                Console.WriteLine($"Email: {shoppingCart.User.Email}\n Product Name: {shoppingCart.Product.Name} \n {shoppingCart.Product.Price}\n {shoppingCart.Quantity}\n\n");
+            }
+         
+
+           
+        
         }
 
         // <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
@@ -238,7 +248,7 @@ namespace DatabaseFirstLINQ
         private void ProblemSixteen()
         {
             // Update the price of the product you created to something different using LINQ.
-            var product = _context.Products.Where(u => u.Name == "Hair scrunchie").SingleOrDefault();
+            var product = _context.Products.Where(p => p.Name == "Hair scrunchie").SingleOrDefault();
             product.Price = 5;
             _context.Products.Update(product);
             _context.SaveChanges();
@@ -287,7 +297,9 @@ namespace DatabaseFirstLINQ
         private void ProblemTwenty()
         {
             // Delete the user with the email "oda@gmail.com" from the Users table using LINQ.
-
+            //var user = _context.Users.Where(u => u.Users.Email == "oda@gmail.com").SingleOrDefault();
+            //_context.UserRoles.Remove(user);
+            //_context.SaveChanges();
         }
 
         // <><><><><><><><> BONUS PROBLEMS <><><><><><><><><>

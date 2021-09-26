@@ -7,6 +7,8 @@ namespace DatabaseFirstLINQ.Models
 {
     public partial class User
     {
+        internal object Users;
+
         public User()
         {
             ShoppingCarts = new HashSet<ShoppingCart>();
